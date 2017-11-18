@@ -16,3 +16,5 @@ const orders = (state = [], action) => {
 export default combineReducers({
   orders
 });
+
+export const getOrders = state => state.orders;

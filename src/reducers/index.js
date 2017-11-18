@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
-import Market from './market';
-import Farm from './farm';
-import Budget from './budget';
+import market from './market';
+import farm from './farm';
+import budget from './budget';
 
 export default combineReducers({
-  Market,
-  Farm,
-  Budget
+  market,
+  farm,
+  budget
 });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {createOrder} from '../../actions/marketActions';
+import {createOrder, moveOrderToFarm} from '../../actions/marketActions';
 import {getOrders} from '../../reducers/market';
 import Order from '../Order/Order';
 import {connect} from 'react-redux';
@@ -42,8 +42,16 @@ export class Market extends Component {
     createOrder(newOrder);
   };
 
+  handleMoveOrderToFarm = () => {
+    const {moveOrderToFarm, orders} = this.props;
+    const movedOrder = orders[orders.length - 1];
+
+    moveOrderToFarm(movedOrder);
+  };
+
   render() {
     const {orders} = this.props;
+    const isMoveToOrderDisabled = !orders.length;
 
     return (
       <div className="market">
@@ -54,7 +62,12 @@ export class Market extends Component {
         >
           Создать заказ
         </button>
-        <button>Отправить заказ на ферму</button>
+        <button
+          disabled={isMoveToOrderDisabled}
+          onClick={this.handleMoveOrderToFarm}
+        >
+          Отправить заказ на ферму
+        </button>
         <div className="order-list">
           {orders.map(order => <Order key={order.id} {...order} />)}
         </div>
@@ -63,12 +76,13 @@ export class Market extends Component {
   }
 }
 
-const mapStateToProps = ({Market}) => ({
-  orders: getOrders(Market)
+const mapStateToProps = ({market}) => ({
+  orders: getOrders(market)
 });
 
 const mapDispatchToProps = {
-  createOrder
+  createOrder,
+  moveOrderToFarm
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Market);
